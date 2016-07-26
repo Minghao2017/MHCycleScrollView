@@ -1,0 +1,28 @@
+{
+  "name": "WSCycleScrollView",
+  "version": "0.1.0",
+  "summary": "A short description of WSCycleScrollView.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/WSCycleScrollView",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Wilson": "xue_minghao@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/WSCycleScrollView.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "WSCycleScrollView/Classes/**/*",
+  "frameworks": "UIKit",
+  "dependencies": {
+    "PureLayout": [
+      "~> 3.0.1"
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+framework module Pods_WSCycleScrollView_Example {
+  umbrella header "Pods-WSCycleScrollView_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
