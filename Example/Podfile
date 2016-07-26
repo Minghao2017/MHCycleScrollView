@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'WSCycleScrollView_Example' do
+  pod 'WSCycleScrollView', :path => '../'
+
+  target 'WSCycleScrollView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
