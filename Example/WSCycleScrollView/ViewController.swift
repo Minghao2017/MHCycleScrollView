@@ -13,6 +13,14 @@ class ViewController: UIViewController {
 
     var cycleScrollView: WSCycleScrollView!
     
+    var colors = [
+        UIColor.redColor(),
+        UIColor.orangeColor(),
+        UIColor.blueColor(),
+        UIColor.brownColor(),
+        UIColor.cyanColor()
+    ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -38,12 +46,13 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 5
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CycleScrollCollectionViewCell", forIndexPath: indexPath) as! CycleScrollCollectionViewCell
         cell.titleLbl.text = "\(indexPath.item)"
+        cell.contentView.backgroundColor = colors[indexPath.item]
         return cell
     }
 }

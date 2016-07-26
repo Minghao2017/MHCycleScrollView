@@ -1,7 +1,5 @@
 PODS:
-  - PureLayout (3.0.1)
-  - WSCycleScrollView (0.1.0):
-    - PureLayout (~> 3.0.1)
+  - WSCycleScrollView (0.1.0)
 
 DEPENDENCIES:
   - WSCycleScrollView (from `../`)
@@ -11,7 +9,6 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
-  WSCycleScrollView: 7446e72645c6b9b7b41b502672fd08bff71dd7ca
+  WSCycleScrollView: 0b28a2cfb95e18b5842cead0beabfcd8b8858000
 
 COCOAPODS: 0.39.0

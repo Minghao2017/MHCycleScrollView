@@ -10,14 +10,15 @@ import UIKit
 
 public class WSCycleScrollView: UICollectionView {
     
-    private var layout: WSCycleScrollLayout
+    var autoScrollTimeInterval: NSTimeInterval = 3
     
+    private var layout: WSCycleScrollLayout
     
     public init() {
         layout = WSCycleScrollLayout()
         super.init(frame: CGRectZero, collectionViewLayout: layout)
         
-        pagingEnabled = true
+        setupCollectionView()
 
     }
     
@@ -27,13 +28,13 @@ public class WSCycleScrollView: UICollectionView {
         super.init(coder: aDecoder)
         
         collectionViewLayout = layout
-        pagingEnabled = true
+        setupCollectionView()
     }
     
-    
+    private func setupCollectionView() {
+        pagingEnabled = true
+        showsHorizontalScrollIndicator = false
+        bounces = false
+    }
 }
 
-extension WSCycleScrollView: UIScrollViewDelegate {
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
-    }
-}

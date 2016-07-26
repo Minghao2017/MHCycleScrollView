@@ -8,34 +8,78 @@
 
 import UIKit
 
-public class WSCycleScrollLayout: UICollectionViewLayout {
+private let DISPLAY_ITEM: Int = 1
+
+class WSCycleScrollLayout: UICollectionViewLayout {
+    
+    var displayingPageIndex: Int = 0
     
     private var cache = [UICollectionViewLayoutAttributes]()
+    private var timer: NSTimer?
     
-    override public func prepareLayout() {
+    override func prepareLayout() {
         
         guard let collectionView = collectionView else {
             return
         }
-        guard cache.isEmpty else {
+        
+        if !cache.isEmpty {
+            cache.removeAll()
+        }
+        
+        let count = collectionView.numberOfItemsInSection(0)
+        
+        guard count > 0 else {
             return
         }
         
-        for item in 0..<collectionView.numberOfItemsInSection(0) {
-            let indexPath = NSIndexPath(forItem: item, inSection: 0)
+        let cellWidth: CGFloat = collectionView.bounds.size.width
+        let cellHeight: CGFloat = collectionView.bounds.size.height
+        let y: CGFloat = 0
+
+        guard count > 2 else {
+            for item in 0..<count {
+                let indexPath = NSIndexPath(forItem: item, inSection: 0)
+                let attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+                let x: CGFloat = CGFloat(item) * cellWidth
+                attributes.frame = CGRectMake(x, y, cellWidth, cellHeight)
+                cache.append(attributes)
+            }
+            return
+        }
+        
+        for pageIndex in 0..<count {
+            
+            //计算当前pageIndex对应的item
+            let item: Int
+            if displayingPageIndex == DISPLAY_ITEM {
+                item = pageIndex
+            } else if displayingPageIndex < DISPLAY_ITEM {
+                item = (pageIndex + DISPLAY_ITEM - displayingPageIndex) % count
+            } else {
+                var temp = pageIndex - displayingPageIndex + DISPLAY_ITEM
+                if temp < 0 {
+                    temp += count
+                }
+                item = temp
+            }
+            
+            let indexPath = NSIndexPath(forItem: pageIndex, inSection: 0)
             
             let attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
-            
-            let width: CGFloat = collectionView.bounds.size.width
-            let height: CGFloat = collectionView.bounds.size.height
-            let y: CGFloat = 0
-            let x: CGFloat = CGFloat(item) * width
-            attributes.frame = CGRectMake(x, y, width, height)
+            let x: CGFloat = CGFloat(item) * cellWidth
+            attributes.frame = CGRectMake(x, y, cellWidth, cellHeight)
             cache.append(attributes)
         }
+        
+        collectionView.setContentOffset(CGPointMake(cellWidth, 0), animated: false)
+        
+        // TODO: 占用了唯一的代理，外部无法继续使用
+        collectionView.delegate = self
+        startTimer()
     }
     
-    override public func collectionViewContentSize() -> CGSize {
+    override func collectionViewContentSize() -> CGSize {
         guard let collectionView = collectionView else {
             return CGSizeZero
         }
@@ -45,11 +89,8 @@ public class WSCycleScrollLayout: UICollectionViewLayout {
         return CGSizeMake(width * CGFloat(collectionView.numberOfItemsInSection(0)), height)
     }
     
-    override public func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var layoutAttributes = [UICollectionViewLayoutAttributes]()
-        
-        // Loop through the cache and look for items in the rect
         for attributes  in cache {
             if CGRectIntersectsRect(attributes.frame, rect ) {
                 layoutAttributes.append(attributes)
@@ -57,4 +98,81 @@ public class WSCycleScrollLayout: UICollectionViewLayout {
         }
         return layoutAttributes
     }
+}
+
+extension WSCycleScrollLayout: UICollectionViewDelegate {
+    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        updatePageIndex()
+    }
+    
+    public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+        updatePageIndex()
+    }
+    
+    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        stopTimer()
+    }
+    
+    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        guard let count = collectionView?.numberOfItemsInSection(0) where count > 2 else {
+            return
+        }
+        
+        startTimer()
+    }
+}
+
+extension WSCycleScrollLayout {
+    
+    func updatePageIndex() {
+        guard let collectionView = collectionView else {
+            return
+        }
+        
+        let offsetX = collectionView.contentOffset.x
+        if offsetX == 0 {
+            displayingPageIndex -= 1
+            if displayingPageIndex < 0 {
+                displayingPageIndex += collectionView.numberOfItemsInSection(0)
+            }
+            invalidateLayout()
+        } else if offsetX == collectionView.bounds.size.width * 2 {
+            displayingPageIndex += 1
+            displayingPageIndex %= collectionView.numberOfItemsInSection(0)
+            invalidateLayout()
+        }
+    }
+    
+    func startTimer() {
+        if self.timer != nil {
+            self.timer!.invalidate()
+            self.timer = nil
+        }
+        
+        let autoScrollTimeInterval: NSTimeInterval
+        if let cv = collectionView as? WSCycleScrollView {
+            autoScrollTimeInterval = cv.autoScrollTimeInterval
+        } else {
+            autoScrollTimeInterval = 3
+        }
+        
+        let timer = NSTimer(timeInterval: autoScrollTimeInterval, target: self, selector: #selector(WSCycleScrollLayout.timerTriggered), userInfo: nil, repeats: true)
+        NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+        self.timer = timer
+    }
+    func stopTimer() {
+        if self.timer != nil {
+            self.timer!.invalidate()
+            self.timer = nil
+        }
+    }
+    
+    func timerTriggered() {
+        guard let collectionView = collectionView else {
+            return
+        }
+        collectionView.setContentOffset(CGPointMake(collectionView.bounds.size.width * 2, 0), animated: true)
+    }
+
 }

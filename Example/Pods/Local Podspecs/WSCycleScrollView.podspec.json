@@ -1,9 +1,9 @@
 {
   "name": "WSCycleScrollView",
   "version": "0.1.0",
-  "summary": "A short description of WSCycleScrollView.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/WSCycleScrollView",
+  "summary": "WSCycleScrollView, a cycle scroll view control that displays components. You can switch them by gesture or automatically",
+  "description": "WSCycleScrollView, a cycle scroll view control that displays components. You can switch them by gesture or automatically\nIt's implemented by UICollectionView internal, written in Swift and elegant enough.",
+  "homepage": "https://github.com/Wilson2014/WSCycleScrollView",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -19,10 +19,5 @@
     "ios": "8.0"
   },
   "source_files": "WSCycleScrollView/Classes/**/*",
-  "frameworks": "UIKit",
-  "dependencies": {
-    "PureLayout": [
-      "~> 3.0.1"
-    ]
-  }
+  "frameworks": "UIKit"
 }
