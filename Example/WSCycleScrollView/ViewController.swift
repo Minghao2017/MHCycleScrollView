@@ -18,6 +18,11 @@ class ViewController: UIViewController {
         UIColor.orangeColor(),
         UIColor.blueColor(),
         UIColor.brownColor(),
+        UIColor.cyanColor(),
+        UIColor.redColor(),
+        UIColor.orangeColor(),
+        UIColor.blueColor(),
+        UIColor.brownColor(),
         UIColor.cyanColor()
     ]
     
