@@ -34,19 +34,24 @@ class ViewController: UIViewController {
         let nib = UINib(nibName: "CycleScrollCollectionViewCell", bundle: nil)
         cycleScrollView.registerNib(nib, forCellWithReuseIdentifier: "CycleScrollCollectionViewCell")
         cycleScrollView.dataSource = self
+        cycleScrollView.cycleScrollViewDelegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 }
 
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        print(#function,indexPath.item)
+    }
+}
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 7
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

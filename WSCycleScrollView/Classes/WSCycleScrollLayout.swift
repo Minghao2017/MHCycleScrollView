@@ -74,8 +74,9 @@ class WSCycleScrollLayout: UICollectionViewLayout {
         
         collectionView.setContentOffset(CGPointMake(cellWidth, 0), animated: false)
         
-        // TODO: 占用了唯一的代理，外部无法继续使用
-        collectionView.delegate = self
+        if let collectionView = collectionView as? WSCycleScrollView {
+            collectionView.setDelegateInternal(self)
+        }
         startTimer()
     }
     
@@ -98,28 +99,38 @@ class WSCycleScrollLayout: UICollectionViewLayout {
         }
         return layoutAttributes
     }
+    
+    deinit {
+        stopTimer()
+    }
 }
 
 extension WSCycleScrollLayout: UICollectionViewDelegate {
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         updatePageIndex()
     }
     
-    public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
         updatePageIndex()
     }
     
-    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         stopTimer()
     }
     
-    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         guard let count = collectionView?.numberOfItemsInSection(0) where count > 2 else {
             return
         }
         
         startTimer()
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if let collectionView = collectionView as? WSCycleScrollView {
+            collectionView.cycleScrollViewDelegate?.collectionView?(collectionView, didSelectItemAtIndexPath: indexPath)
+        }
     }
 }
 
@@ -175,4 +186,10 @@ extension WSCycleScrollLayout {
         collectionView.setContentOffset(CGPointMake(collectionView.bounds.size.width * 2, 0), animated: true)
     }
 
+}
+
+extension WSCycleScrollView {
+    func setDelegateInternal(delegate: UICollectionViewDelegate?) {
+        super.delegate = delegate
+    }
 }
