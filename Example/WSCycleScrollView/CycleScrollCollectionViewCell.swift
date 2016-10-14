@@ -11,6 +11,7 @@ import UIKit
 class CycleScrollCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

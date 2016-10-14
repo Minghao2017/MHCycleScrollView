@@ -2,57 +2,100 @@
 //  WSCycleScrollView.swift
 //  Pods
 //
-//  Created by Xue on 16/7/26.
+//  Created by Xue on 2016/10/14.
 //
 //
 
 import UIKit
 
-public class WSCycleScrollView: UICollectionView {
+/// 固定部分
+public class WSCycleScrollView: UIView {
+    public weak var collectionView: WSCycleCollectionView!
     
-        /// 自动滚动时间间距
-    public var autoScrollTimeInterval: NSTimeInterval = 3 {
-        didSet {
-            layout.invalidateLayout()
-        }
-    }
-    
-        /// delegate为WSCycleScrollView内部使用，外部设置无效
-    override public var delegate: UICollectionViewDelegate? {
+    public var pageControlCurrentPageIndicatorTintColor: UIColor? {
         get {
-            return super.delegate
+            return pageControl?.currentPageIndicatorTintColor
         }
         set {
-            
+            pageControl?.currentPageIndicatorTintColor = newValue
         }
     }
     
-        /// WSCycleScrollView代理对象。只传递了shouldSelectItemAtIndexPath方法
-    public var cycleScrollViewDelegate: UICollectionViewDelegate?
-
+    public var pageControlPageIndicatorTintColor : UIColor? {
+        get {
+            return pageControl?.pageIndicatorTintColor
+        }
+        set {
+            pageControl?.pageIndicatorTintColor = newValue
+        }
+    }
     
-    private var layout: WSCycleScrollLayout
-    
-    public init() {
-        layout = WSCycleScrollLayout()
-        super.init(frame: CGRectZero, collectionViewLayout: layout)
-        
-        setupCollectionView()
-
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupSeubViewApperance()
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        layout = WSCycleScrollLayout()
-        
         super.init(coder: aDecoder)
-        
-        collectionViewLayout = layout
-        setupCollectionView()
+        setupSeubViewApperance()
     }
     
-    private func setupCollectionView() {
-        pagingEnabled = true
-        showsHorizontalScrollIndicator = false
-        bounces = false
+    /// 是否显示页码显示器。默认为true,当页数大于1时显示
+    public var showPageControl = true {
+        didSet {
+            pageControl?.hidden = !showPageControl
+        }
+    }
+    private weak var pageControl: UIPageControl?
+}
+
+private extension WSCycleScrollView {
+    func setupSeubViewApperance() {
+        setupCollectionView()
+        setupPageControl()
+    }
+    
+    func setupCollectionView() {
+        let collectionView = WSCycleCollectionView()
+        addSubview(collectionView)
+        
+        pinEdgeToSuperView(collectionView, attribute: .Leading)
+        pinEdgeToSuperView(collectionView, attribute: .Top)
+        pinEdgeToSuperView(collectionView, attribute: .Trailing)
+        pinEdgeToSuperView(collectionView, attribute: .Bottom)
+        
+        self.collectionView = collectionView
+        
+        collectionView.pagesCountChangedBlock = {
+            [weak self] (count) in
+            self?.pageControl?.numberOfPages = count
+            if let showPageControl = self?.showPageControl {
+                self?.pageControl?.hidden = !showPageControl
+            }
+        }
+        
+        collectionView.currentPageChangedBlock = {
+            [weak self] (index) in
+            self?.pageControl?.currentPage = index
+        }
+    }
+    
+    func setupPageControl() {
+        let pageControl = UIPageControl()
+        addSubview(pageControl)
+        pageControl.hidden = !showPageControl
+        pageControl.hidesForSinglePage = true
+        self.pageControl = pageControl
+
+        pinEdgeToSuperView(pageControl, attribute: .Trailing, const: -8)
+        pinEdgeToSuperView(pageControl, attribute: .Bottom, const: 8)
+    }
+    
+    func pinEdgeToSuperView(view: UIView, attribute: NSLayoutAttribute, const: CGFloat = 0) {
+        guard let sView = view.superview else {
+            return
+        }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint(item: view, attribute: attribute, relatedBy: .Equal, toItem: sView, attribute: attribute, multiplier: 1.0, constant: const).active = true
     }
 }

@@ -74,7 +74,7 @@ class WSCycleScrollLayout: UICollectionViewLayout {
         
         collectionView.setContentOffset(CGPointMake(cellWidth, 0), animated: false)
         
-        if let collectionView = collectionView as? WSCycleScrollView {
+        if let collectionView = collectionView as? WSCycleCollectionView {
             collectionView.setDelegateInternal(self)
         }
         startTimer()
@@ -128,7 +128,7 @@ extension WSCycleScrollLayout: UICollectionViewDelegate {
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let collectionView = collectionView as? WSCycleScrollView {
+        if let collectionView = collectionView as? WSCycleCollectionView {
             collectionView.cycleScrollViewDelegate?.collectionView?(collectionView, didSelectItemAtIndexPath: indexPath)
         }
     }
@@ -153,6 +153,11 @@ extension WSCycleScrollLayout {
             displayingPageIndex %= collectionView.numberOfItemsInSection(0)
             invalidateLayout()
         }
+        
+        if let collectionView = collectionView as? WSCycleCollectionView {
+            collectionView.cycleScrollViewDelegate?.cycleCollectionView?(collectionView, didMoveToPage: displayingPageIndex)
+            collectionView.currentPageChangedBlock?(displayingPageIndex)
+        }
     }
     
     func startTimer() {
@@ -162,7 +167,7 @@ extension WSCycleScrollLayout {
         }
         
         let autoScrollTimeInterval: NSTimeInterval
-        if let cv = collectionView as? WSCycleScrollView {
+        if let cv = collectionView as? WSCycleCollectionView {
             autoScrollTimeInterval = cv.autoScrollTimeInterval
         } else {
             autoScrollTimeInterval = 3
@@ -188,7 +193,7 @@ extension WSCycleScrollLayout {
 
 }
 
-extension WSCycleScrollView {
+extension WSCycleCollectionView {
     func setDelegateInternal(delegate: UICollectionViewDelegate?) {
         super.delegate = delegate
     }

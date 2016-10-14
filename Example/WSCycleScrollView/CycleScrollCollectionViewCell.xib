@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -16,27 +16,35 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PoJ-s1-1nF">
                         <rect key="frame" x="204" y="99" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WSCycleScrollView" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVt-3l-4Uf">
                         <rect key="frame" x="150" y="55" width="149" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sOy-mc-coq">
+                        <rect key="frame" x="0.0" y="0.0" width="449" height="220"/>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="sOy-mc-coq" secondAttribute="trailing" id="4uE-iG-Lfj"/>
                 <constraint firstItem="PoJ-s1-1nF" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="DOS-wB-5Ku"/>
                 <constraint firstItem="aVt-3l-4Uf" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="NOB-dg-uW4"/>
+                <constraint firstAttribute="bottom" secondItem="sOy-mc-coq" secondAttribute="bottom" id="eCA-2s-d44"/>
+                <constraint firstItem="sOy-mc-coq" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="fg3-m7-cIO"/>
                 <constraint firstItem="PoJ-s1-1nF" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="pfN-Tz-qbB"/>
                 <constraint firstItem="PoJ-s1-1nF" firstAttribute="top" secondItem="aVt-3l-4Uf" secondAttribute="bottom" constant="23" id="tXs-Dm-GN1"/>
+                <constraint firstItem="sOy-mc-coq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="tdC-NY-bmq"/>
             </constraints>
             <size key="customSize" width="449" height="220"/>
             <connections>
+                <outlet property="imageView" destination="sOy-mc-coq" id="Xjf-lQ-SG2"/>
                 <outlet property="titleLbl" destination="PoJ-s1-1nF" id="uJC-Go-bnc"/>
             </connections>
             <point key="canvasLocation" x="635.5" y="271"/>

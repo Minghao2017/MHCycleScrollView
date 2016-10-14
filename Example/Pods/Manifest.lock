@@ -1,7 +1,11 @@
 PODS:
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
   - WSCycleScrollView (0.1.0)
 
 DEPENDENCIES:
+  - SDWebImage
   - WSCycleScrollView (from `../`)
 
 EXTERNAL SOURCES:
@@ -9,6 +13,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   WSCycleScrollView: 0b28a2cfb95e18b5842cead0beabfcd8b8858000
 
 COCOAPODS: 0.39.0
