@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WSCycleScrollView'
-  s.version          = '1.0.0'
+  s.version          = 'V1.0.0'
   s.summary          = 'WSCycleScrollView, a cycle scroll view control that displays components. You can switch them by gesture or automatically'
 
 # This description is used to generate tags and improve search results.
