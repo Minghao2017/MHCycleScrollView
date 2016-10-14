@@ -8,7 +8,7 @@
 
 import UIKit
 
- @objc public protocol WSCycleCollectionViewDelegate: UICollectionViewDelegate {
+@objc public protocol WSCycleCollectionViewDelegate: UICollectionViewDelegate {
     optional func cycleCollectionView(view: WSCycleCollectionView, didMoveToPage index: Int)
     optional func cycleCollectionView(view: WSCycleCollectionView, numberOfPages pages: Int)
 }
